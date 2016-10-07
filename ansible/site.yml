@@ -42,6 +42,7 @@
       - { src: 'conf/log4j.properties.j2', dest: '{{ CONFIG_DIR }}/log4j.properties' }
       - { src: 'conf/mapred-site.xml.j2' , dest: '{{ CONFIG_DIR }}/mapred-site.xml' }
       - { src: 'conf/slaves.j2'          , dest: '{{ CONFIG_DIR }}/slaves' }
+      - { src: 'conf/spark-defaults.conf.j2', dest: '{{ BASE_DIR }}/spark/conf/spark-defaults.conf' }
       - { src: 'conf/yarn-env.sh.j2'     , dest: '{{ CONFIG_DIR }}/yarn-env.sh' }
       - { src: 'conf/yarn-site.xml.j2'   , dest: '{{ CONFIG_DIR }}/yarn-site.xml' }
 
