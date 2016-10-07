@@ -1,0 +1,65 @@
+---
+- name: Ensure Hadoop group exists
+  group: name=hadoop state=present
+
+- name: Ensure hadoop user exists
+  user: name=hadoop group=hadoop createhome=yes shell=/bin/bash state=present
+
+- name: add hadoop .ssh directory
+  file: path=/home/hadoop/.ssh state=directory mode=0700 owner=hadoop group=hadoop
+
+- name: Ensure Hadoop id_rsa exist
+  copy: src=files/id_rsa dest=/home/hadoop/.ssh/id_rsa mode=0600 owner=hadoop group=hadoop
+
+- name: Ensure Hadoop authorized_keys exist
+  copy: src=files/id_rsa.pub dest=/home/hadoop/.ssh/authorized_keys mode=0644 owner=hadoop group=hadoop
+
+- name: Ensure Hadoop related directories exist
+  file: path={{ item.path }} owner=hadoop group=hadoop mode={{ item.mode }} recurse=yes state=directory
+  with_items:
+    - { path: '{{ DATA_DIR }}'   , mode: 775 }
+    - { path: '{{ LOG_DIR }}'    , mode: 775 }
+    - { path: '{{ PACKAGE_DIR }}', mode: 775 }
+    - { path: '{{ PID_DIR }}'    , mode: 775 }
+    - { path: '{{ TMP_DIR }}'    , mode: 1777 }
+
+- name: Ensure Hadoop Tarball exists
+  copy: src=files/packages/{{ HADOOP_FILE_NAME }} dest={{ PACKAGE_DIR }}/{{ HADOOP_FILE_NAME }} mode=0644
+
+- name: Ensure Hadoop is extracted
+  unarchive: src={{PACKAGE_DIR}}/{{HADOOP_FILE_NAME}} dest={{ BASE_DIR }} owner=hadoop group=hadoop copy=no creates={{ BASE_DIR }}/hadoop-{{ HADOOP_VERSION }}
+
+- name: Ensure symlink to Hadoop exists
+  file: src={{ BASE_DIR }}/hadoop-{{ HADOOP_VERSION }} path={{ BASE_DIR }}/hadoop state=link owner=hadoop group=hadoop
+
+- name: Ensure setup script is in place
+  template: src=setup_hadoop.sh.j2 dest={{ BASE_DIR }}/setup_hadoop.sh owner=hadoop group=hadoop mode=775
+
+- name: Ensure Hadoop configuration is in place
+  template: src={{ item.src }} dest={{ item.dest }} owner=hadoop group=hadoop mode=0644
+  with_items:
+    - { src: 'conf/core-site.xml.j2'   , dest: '{{ CONFIG_DIR }}/core-site.xml' }
+    - { src: 'conf/hadoop-env.sh.j2'   , dest: '{{ CONFIG_DIR }}/hadoop-env.sh' }
+    - { src: 'conf/hdfs-site.xml.j2'   , dest: '{{ CONFIG_DIR }}/hdfs-site.xml' }
+    - { src: 'conf/log4j.properties.j2', dest: '{{ CONFIG_DIR }}/log4j.properties' }
+    - { src: 'conf/slaves.j2'          , dest: '{{ CONFIG_DIR }}/slaves' }
+    - { src: 'conf/yarn-env.sh.j2'     , dest: '{{ CONFIG_DIR }}/yarn-env.sh' }
+    - { src: 'conf/yarn-site.xml.j2'   , dest: '{{ CONFIG_DIR }}/yarn-site.xml' }
+
+#    - { src: 'conf/mapred-env.sh.j2'  , dest: '{{ CONFIG_DIR }}/mapred-env.sh' }
+#    - { src: 'conf/mapred-site.xml.j2', dest: '{{ CONFIG_DIR }}/mapred-site.xml' }
+
+- name: Ensure Spark Tarball exists
+  copy: src=files/packages/{{ SPARK_FILE_NAME }} dest={{ PACKAGE_DIR }}/{{ SPARK_FILE_NAME }} mode=0644
+
+- name: Ensure Spark is extracted
+  unarchive: src={{ PACKAGE_DIR }}/{{ SPARK_FILE_NAME }} dest={{ BASE_DIR }} copy=no
+
+- name: Ensure symlink to Spark exists
+  file: src={{ BASE_DIR }}/spark-{{ SPARK_VERSION }}-bin-hadoop2.7 path={{ BASE_DIR }}/spark state=link owner=hadoop group=hadoop
+
+#- name: Ensure tarballs are cleaned up
+#  file: path={{ PACKAGE_DIR }}/{{ item }} state=absent
+#  with_items:
+#    - '{{ HADOOP_FILE_NAME }}'
+#    - '{{ SPARK_FILE_NAME }}'

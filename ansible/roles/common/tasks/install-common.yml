@@ -1,0 +1,15 @@
+---
+
+- name: Set file limits 
+  lineinfile: dest=/etc/security/limits.conf line="{{ item }}" state=present
+  with_items:
+    - '* soft nofile 65535'
+    - '* hard nofile 65535'
+    - '* soft memlock unlimited'
+    - '* hard memlock unlimited'
+
+- name: Install basic OS packages Debian
+  apt: name={{ item }} state=present update_cache=yes
+  with_items:
+    - "{{ BASE_PACKAGES_DEBIAN }}"
+  when: ansible_os_family == 'Debian'

@@ -1,0 +1,2 @@
+- name: Apply common configuration to all nodes
+  include: install-common.yml
