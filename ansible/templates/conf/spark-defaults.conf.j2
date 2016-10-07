@@ -33,4 +33,4 @@ spark.serializer=org.apache.spark.serializer.KryoSerializer
 spark.yarn.historyServer.address=http://{{ MASTER }}:18088
 spark.master=yarn
 spark.deploy-mode=client
-spark.history.fs.logDirectory=/user/spark/applicationHistory
+spark.history.fs.logDirectory={{ MASTER }}:8020/user/spark/applicationHistory
