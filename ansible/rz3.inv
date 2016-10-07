@@ -2,7 +2,7 @@
 rz3-pc26
 
 [slaves]
-rz3-pc[01:03]
+rz3-pc[01:25]
 
 [cluster:children]
 masters
