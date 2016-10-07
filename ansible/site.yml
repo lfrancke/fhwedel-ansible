@@ -10,11 +10,11 @@
   - name: add hadoop .ssh directory
     file: path=/home/hadoop/.ssh state=directory mode=0700 owner=hadoop group=hadoop
 
-#  - name: Ensure Hadoop id_rsa exist
-#    copy: src=files/id_rsa dest=/home/hadoop/.ssh/id_rsa mode=0600 owner=hadoop group=hadoop
-#
-#  - name: Ensure Hadoop authorized_keys exist
-#    copy: src=files/id_rsa.pub dest=/home/hadoop/.ssh/authorized_keys mode=0644 owner=hadoop group=hadoop
+  - name: Ensure Hadoop id_rsa exist
+    copy: src=files/id_rsa dest=/home/hadoop/.ssh/id_rsa mode=0600 owner=hadoop group=hadoop
+
+  - name: Ensure Hadoop authorized_keys exist
+    copy: src=files/id_rsa.pub dest=/home/hadoop/.ssh/authorized_keys mode=0644 owner=hadoop group=hadoop
 
   - name: Ensure Hadoop related directories exist
     file: path={{ item.path }} owner=hadoop group=hadoop mode={{ item.mode }} recurse=yes state=directory
