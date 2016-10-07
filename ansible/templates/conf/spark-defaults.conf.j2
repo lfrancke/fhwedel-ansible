@@ -30,7 +30,7 @@
 spark.eventLog.dir=hdfs://{{ MASTER }}:8020/user/spark/applicationHistory
 spark.eventLog.enabled=true
 spark.serializer=org.apache.spark.serializer.KryoSerializer
-spark.yarn.historyServer.address=http://{{ MASTER }}:18088
+spark.yarn.historyServer.address=http://{{ MASTER }}:18080
 spark.master=yarn
 spark.deploy-mode=client
 spark.history.fs.logDirectory=hdfs://{{ MASTER }}:8020/user/spark/applicationHistory
