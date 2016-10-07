@@ -33,4 +33,12 @@
     <name>yarn.app.mapreduce.am.command-opts</name>
     <value>-Xmx768m</value>
   </property>
+  <property>
+    <name>mapreduce.jobhistory.webapp.address</name>
+    <value>{{ MASTER }}:19888</value>
+  </property>
+  <property>
+    <name>mapreduce.jobhistory.address</name>
+    <value>{{ MASTER }}:10020</value>
+  </property>
 </configuration>
