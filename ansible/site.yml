@@ -33,6 +33,12 @@
   - name: Ensure setup script is in place
     template: src=setup_hadoop.sh.j2 dest={{ BASE_DIR }}/setup_hadoop.sh owner=hadoop group=hadoop mode=775
 
+  - name: Ensure Spark is extracted
+    unarchive: src=files/packages/{{ SPARK_FILE_NAME }} dest={{ BASE_DIR }} owner=hadoop group=hadoop copy=yes creates={{ BASE_DIR }}/spark-{{ SPARK_VERSION }}-bin-hadoop2.7
+
+  - name: Ensure symlink to Spark exists
+    file: src={{ BASE_DIR }}/spark-{{ SPARK_VERSION }}-bin-hadoop2.7 path={{ BASE_DIR }}/spark state=link owner=hadoop group=hadoop
+
   - name: Ensure Hadoop configuration is in place
     template: src={{ item.src }} dest={{ item.dest }} owner=hadoop group=hadoop mode=0644
     with_items:
@@ -45,12 +51,3 @@
       - { src: 'conf/spark-defaults.conf.j2', dest: '{{ BASE_DIR }}/spark/conf/spark-defaults.conf' }
       - { src: 'conf/yarn-env.sh.j2'     , dest: '{{ CONFIG_DIR }}/yarn-env.sh' }
       - { src: 'conf/yarn-site.xml.j2'   , dest: '{{ CONFIG_DIR }}/yarn-site.xml' }
-
-  #    - { src: 'conf/mapred-env.sh.j2'  , dest: '{{ CONFIG_DIR }}/mapred-env.sh' }
-
-
-  - name: Ensure Spark is extracted
-    unarchive: src=files/packages/{{ SPARK_FILE_NAME }} dest={{ BASE_DIR }} owner=hadoop group=hadoop copy=yes creates={{ BASE_DIR }}/spark-{{ SPARK_VERSION }}-bin-hadoop2.7
-
-  - name: Ensure symlink to Spark exists
-    file: src={{ BASE_DIR }}/spark-{{ SPARK_VERSION }}-bin-hadoop2.7 path={{ BASE_DIR }}/spark state=link owner=hadoop group=hadoop
