@@ -5,6 +5,7 @@ Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/xenial64"
 
   config.vm.network "forwarded_port", guest: 50070, host: 50070
+  config.vm.network "forwarded_port", guest: 8042,  host: 8042
   config.vm.network "forwarded_port", guest: 8088,  host: 8088
   config.vm.network "forwarded_port", guest: 19888, host: 19888
   config.vm.network "forwarded_port", guest: 18080, host: 18080
