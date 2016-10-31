@@ -34,3 +34,4 @@ spark.yarn.historyServer.address=http://{{ MASTER }}:18080
 spark.master=yarn
 spark.deploy-mode=client
 spark.history.fs.logDirectory=hdfs://{{ MASTER }}:8020/user/spark/applicationHistory
+spark.sql.warehouse.dir=file:${system:user.dir}/spark-warehouse
