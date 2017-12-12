@@ -1,11 +1,11 @@
 ---
 
 # Versions
-HADOOP_VERSION: 2.7.3
-SPARK_VERSION: 2.0.1
+HADOOP_VERSION: 2.7.4
+SPARK_VERSION: 2.2.1
 
-HADOOP_FILE_NAME: hadoop-2.7.3.tar.gz
-SPARK_FILE_NAME: spark-2.0.1-bin-hadoop2.7.tgz
+HADOOP_FILE_NAME: hadoop-2.7.4.tar.gz
+SPARK_FILE_NAME: spark-2.2.1-bin-hadoop2.7.tgz
 
 #JAVA_HOME: /usr/lib/jvm/java-8-openjdk-amd64
 JAVA_HOME: /usr/lib/jvm/java-8-oracle
@@ -18,5 +18,8 @@ LOG_DIR:     "{{ BASE_DIR }}/logs"
 PID_DIR:     "{{ BASE_DIR }}/run"
 TMP_DIR:     "{{ BASE_DIR }}/tmp"
 
+# FH Wedel:
 MASTER: rz3-pc26
+
+# Vagrant:
 #MASTER: localhost

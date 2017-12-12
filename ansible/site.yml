@@ -42,12 +42,12 @@
   - name: Ensure Hadoop configuration is in place
     template: src={{ item.src }} dest={{ item.dest }} owner=hadoop group=hadoop mode=0644
     with_items:
-      - { src: 'conf/core-site.xml.j2'   , dest: '{{ CONFIG_DIR }}/core-site.xml' }
-      - { src: 'conf/hadoop-env.sh.j2'   , dest: '{{ CONFIG_DIR }}/hadoop-env.sh' }
-      - { src: 'conf/hdfs-site.xml.j2'   , dest: '{{ CONFIG_DIR }}/hdfs-site.xml' }
-      - { src: 'conf/log4j.properties.j2', dest: '{{ CONFIG_DIR }}/log4j.properties' }
-      - { src: 'conf/mapred-site.xml.j2' , dest: '{{ CONFIG_DIR }}/mapred-site.xml' }
-      - { src: 'conf/slaves.j2'          , dest: '{{ CONFIG_DIR }}/slaves' }
+      - { src: 'conf/core-site.xml.j2'      , dest: '{{ CONFIG_DIR }}/core-site.xml' }
+      - { src: 'conf/hadoop-env.sh.j2'      , dest: '{{ CONFIG_DIR }}/hadoop-env.sh' }
+      - { src: 'conf/hdfs-site.xml.j2'      , dest: '{{ CONFIG_DIR }}/hdfs-site.xml' }
+      - { src: 'conf/log4j.properties.j2'   , dest: '{{ CONFIG_DIR }}/log4j.properties' }
+      - { src: 'conf/mapred-site.xml.j2'    , dest: '{{ CONFIG_DIR }}/mapred-site.xml' }
+      - { src: 'conf/slaves.j2'             , dest: '{{ CONFIG_DIR }}/slaves' }
       - { src: 'conf/spark-defaults.conf.j2', dest: '{{ BASE_DIR }}/spark/conf/spark-defaults.conf' }
-      - { src: 'conf/yarn-env.sh.j2'     , dest: '{{ CONFIG_DIR }}/yarn-env.sh' }
-      - { src: 'conf/yarn-site.xml.j2'   , dest: '{{ CONFIG_DIR }}/yarn-site.xml' }
+      - { src: 'conf/yarn-env.sh.j2'        , dest: '{{ CONFIG_DIR }}/yarn-env.sh' }
+      - { src: 'conf/yarn-site.xml.j2'      , dest: '{{ CONFIG_DIR }}/yarn-site.xml' }
