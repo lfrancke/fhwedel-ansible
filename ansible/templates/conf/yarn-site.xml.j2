@@ -59,6 +59,12 @@
   </property>
 
   <property>
+    <name>yarn.log.server.url</name>
+    <value>http://{{ MASTER }}:19888/jobhistory/logs</value>
+  </property>
+
+  <!-- Broken in 2.7.4 works in 2.7.5 RC1 -->
+  <property>
     <name>yarn.resourcemanager.scheduler.class</name>
     <value>org.apache.hadoop.yarn.server.resourcemanager.scheduler.fair.FairScheduler</value>
   </property>
