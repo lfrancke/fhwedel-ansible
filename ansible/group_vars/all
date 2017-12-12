@@ -9,8 +9,11 @@ HADOOP_FILE_NAME: hadoop-2.7.5-RC1.tar.gz
 SPARK_FILE_NAME: spark-2.2.1-bin-hadoop2.7.tgz
 HIVE_FILE_NAME: apache-hive-2.3.2-bin.tar.gz
 
+#FH Wedel:
+#JAVA_HOME: /usr/lib/jvm/java-8-oracle
+
+#Vagrant:
 #JAVA_HOME: /usr/lib/jvm/java-8-openjdk-amd64
-JAVA_HOME: /usr/lib/jvm/java-8-oracle
 
 BASE_DIR:             /opt/hadoop
 
