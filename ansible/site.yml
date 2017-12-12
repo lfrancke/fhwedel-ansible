@@ -39,6 +39,12 @@
   - name: Ensure symlink to Spark exists
     file: src={{ BASE_DIR }}/spark-{{ SPARK_VERSION }}-bin-hadoop2.7 path={{ BASE_DIR }}/spark state=link owner=hadoop group=hadoop
 
+  - name: Ensure Hive is extracted
+    unarchive: src=files/packages/{{ HIVE_FILE_NAME }} dest={{ BASE_DIR }} owner=hadoop group=hadoop copy=yes creates={{ BASE_DIR }}/apache-hive-{{ HIVE_VERSION }}-bin
+
+  - name: Ensure symlink to Hive exists
+    file: src={{ BASE_DIR }}/apache-hive-{{ HIVE_VERSION }}-bin path={{ BASE_DIR }}/hive state=link owner=hadoop group=hadoop
+
   - name: Ensure Hadoop configuration is in place
     template: src={{ item.src }} dest={{ item.dest }} owner=hadoop group=hadoop mode=0644
     with_items:
@@ -51,3 +57,4 @@
       - { src: 'conf/spark-defaults.conf.j2', dest: '{{ BASE_DIR }}/spark/conf/spark-defaults.conf' }
       - { src: 'conf/yarn-env.sh.j2'        , dest: '{{ CONFIG_DIR }}/yarn-env.sh' }
       - { src: 'conf/yarn-site.xml.j2'      , dest: '{{ CONFIG_DIR }}/yarn-site.xml' }
+      - { src: 'conf/hive-site.xml.j2'      , dest: '{{ BASE_DIR }}/hive/conf/hive-site.xml' }

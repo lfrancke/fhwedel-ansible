@@ -1,11 +1,13 @@
 ---
 
 # Versions
-HADOOP_VERSION: 2.7.4
+HADOOP_VERSION: 2.7.5
 SPARK_VERSION: 2.2.1
+HIVE_VERSION: 2.3.2
 
-HADOOP_FILE_NAME: hadoop-2.7.4.tar.gz
+HADOOP_FILE_NAME: hadoop-2.7.5-RC1.tar.gz
 SPARK_FILE_NAME: spark-2.2.1-bin-hadoop2.7.tgz
+HIVE_FILE_NAME: apache-hive-2.3.2-bin.tar.gz
 
 #JAVA_HOME: /usr/lib/jvm/java-8-openjdk-amd64
 JAVA_HOME: /usr/lib/jvm/java-8-oracle
