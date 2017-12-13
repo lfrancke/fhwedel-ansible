@@ -1,6 +1,6 @@
 CREATE DATABASE taxi;
 
-CREATE TABLE taxi.yellow (
+CREATE EXTERNAL TABLE taxi.yellow (
   VendorID INT,
   tpep_pickup_datetime TIMESTAMP,
   tpep_dropoff_datetime TIMESTAMP,
@@ -19,7 +19,8 @@ CREATE TABLE taxi.yellow (
   improvement_surcharge DOUBLE,
   total_amount DOUBLE
 )
-ROW FORMAT DELIMITED FIELDS TERMINATED BY ',';
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+LOCATION '/data/taxi/';
 
-LOAD DATA INPATH '/user/hadoop/taxi' OVERWRITE INTO TABLE taxi.yellow;
+LOAD DATA INPATH '/data/taxi' OVERWRITE INTO TABLE taxi.yellow;
 ANALYZE TABLE taxi.yellow COMPUTE STATISTICS;
