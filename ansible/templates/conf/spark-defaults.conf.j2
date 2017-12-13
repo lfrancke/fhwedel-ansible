@@ -35,3 +35,6 @@ spark.master=yarn
 spark.deploy-mode=client
 spark.history.fs.logDirectory=hdfs://{{ MASTER }}:8020/user/spark/applicationHistory
 spark.sql.warehouse.dir=file:${system:user.dir}/spark-warehouse
+
+# This is needed for some reason or the Spark jobs fail on the real cluster, it works without in Vagrant
+spark.yarn.am.memory=2g
