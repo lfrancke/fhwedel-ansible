@@ -21,7 +21,9 @@ cd ..
 mkdir europa
 cd europa
 wget http://www.statmt.org/europarl/v7/de-en.tgz
+tar xvfz de-en.tgz
 hadoop fs -mkdir /data/europa
-hadoop fs -put * /data/europa
+hadoop fs -put *.de /data/europa
+hadoop fs -put *.en /data/europa
 cd ..
 
