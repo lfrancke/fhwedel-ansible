@@ -1,0 +1,124 @@
+= Setup
+
+== For real
+
+Run the Ansible playbook `ansible/site.yml` like this:
+
+  ansible-playbook -f 30 -i <inventoryfile> ansible/site.yml
+
+When that's done you need to run the following commands once:
+
+.Initial setup
+[source,bash]
+----
+sudo su hadoop
+source /opt/hadoop/setup_hadoop.sh
+hdfs namenode -format
+
+start-dfs.sh
+
+hadoop fs -mkdir -p /user/spark/applicationHistory
+hadoop fs -chmod 1777 /user/spark/applicationHistory
+
+hadoop fs -mkdir -p /tmp
+hadoop fs -chmod 1777 /tmp
+
+hadoop fs -mkdir /data
+hadoop fs -put * /data
+
+hadoop fs -mkdir -p /user/history
+hadoop fs -chmod -R 1777 /user/history
+
+schematool -initSchema -dbType derby
+hadoop fs -mkdir /user/hive/warehouse
+
+stop-dfs.sh
+----
+
+== Vagrant
+
+Running a simple `vagrant up` will create a virtual machine and run the necessary steps (including Ansible) to get started. `vagrant ssh` can then be used to access the machine.
+
+[source,bash]
+----
+sudo su hadoop
+source /opt/hadoop/setup_hadoop.sh
+hdfs namenode -format
+
+hadoop-daemon.sh start namenode
+hadoop-daemon.sh start datanode
+
+hdfs dfs -mkdir -p /user/spark/applicationHistory
+hadoop fs -chmod 1777 /user/spark/applicationHistory
+
+hadoop fs -mkdir /tmp
+hadoop fs -chmod 1777 /tmp
+
+# hadoop fs -mkdir /data
+# hadoop fs -put * /data
+
+schematool -initSchema -dbType derby
+hadoop fs -mkdir -p /user/hive/warehouse
+
+hadoop-daemon.sh stop datanode
+hadoop-daemon.sh stop namenode
+----
+
+
+= Usage
+
+To get the necessary environment variables set up, you _must_ execute the following command:
+
+ source /opt/hadoop/setup_hadoop.sh
+
+== Cluster mode
+
+When the initial setup is done you need to run these commands to get the cluster up and running:
+
+.Starting the cluster
+[source,bash]
+----
+sudo su hadoop
+source /opt/hadoop/setup_hadoop.sh
+start-dfs.sh
+start-yarn.sh
+mr-jobhistory-daemon.sh start historyserver
+start-history.server.sh
+hive --service metastore &> /opt/hadoop/logs/metastore.log &
+----
+
+.Stopping the cluster
+[source,bash]
+----
+TODO
+----
+
+== Vagrant
+
+.Starting the components
+[source,bash]
+----
+yarn-daemon.sh start resourcemanager
+yarn-daemon.sh start nodemanager
+mr-jobhistory-daemon.sh start historyserver
+start-history-server.sh
+hive --service metastore &> /opt/hadoop/logs/metastore.log &
+----
+
+
+.Stopping the components
+[source,bash]
+----
+TODO
+----
+
+== Example commands to run
+
+.Spark PI
+ spark-submit --class org.apache.spark.examples.SparkPi /opt/hadoop/spark/examples/jars/spark-examples_2.11-2.2.1.jar 10
+
+.Hadoop MR PI
+ hadoop jar /opt/hadoop/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.5.jar pi 100 100
+
+.Spark Java WordCount
+ spark-submit --class org.apache.spark.examples.JavaWordCount /opt/hadoop/spark/examples/jars/spark-examples_2.11-2.2.1.jar <path>
